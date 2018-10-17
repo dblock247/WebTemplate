@@ -6,19 +6,24 @@ var browserSync = require('browser-sync').create();
 var config = require('./gulp.config')();
 var del = require('del');
 var $ = require('gulp-load-plugins')({lazy: true});
+var fs = require('fs');
+
 
 gulp.task('partials', () => {
+    let pckg = JSON.parse(fs.readFileSync('./package.json'));
+
     return gulp.src(config.html.src)
         .pipe($.inject(gulp.src(config.html.partials), {
             starttag: '<!-- inject:{{path}} -->',
             relative: true,
-            removeTags: true,
+            removeTags: false,
             transform: function (filePath, file) {
                 // return file contents as string
                 return file.contents.toString('utf8')
             }
         }))
-        .pipe($.htmlmin({ collapseWhitespace: true }))
+        .pipe($.replace('$version$', pckg.version))
+        //.pipe($.htmlmin({ collapseWhitespace: true }))
         .pipe(gulp.dest(config.html.dest));
 });
 

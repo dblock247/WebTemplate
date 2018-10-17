@@ -1,6 +1,6 @@
 module.exports = function () {
     var root = './';
-    var src = root + 'src/AppBundle/';
+    var src = root + 'src/';
     var dest = root + 'dist/';
     var node = root + 'node_modules/';
 
@@ -13,25 +13,28 @@ module.exports = function () {
                 // root + 'scss/*.scss',
                 // '!' + root + '/scss/bootstrap.scss',
                 // '!' + root + 'scss/_variables.scss',
-                root + 'scss/styles.scss'
+                src + 'scss/styles.scss'
             ],
             dest: dest + 'css'
         },
 
         js: {
-            src: root + 'js/scripts.js',
+            src: src + 'js/scripts.js',
             dest: dest + 'js'
         },
         html: {
-            src: ['./index.html'],
-            partials: [
-                './partials/**/*.html'
+            src: [
+                src + './**/*.html',
+                '!' + src + 'partials/**'
             ],
-            dest: './dist/'
+            partials: [
+                src + 'partials/**/*.html'
+            ],
+            dest: root + 'dist/'
         },
         bootstrap: {
             scss: {
-                src:  root + 'scss/bootstrap.scss',
+                src:  src + 'scss/bootstrap.scss',
                 dest: dest + 'vendor/bootstrap/css'
             },
             js:  {
