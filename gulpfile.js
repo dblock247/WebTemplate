@@ -16,14 +16,14 @@ gulp.task('partials', () => {
         .pipe($.inject(gulp.src(config.html.partials), {
             starttag: '<!-- inject:{{path}} -->',
             relative: true,
-            removeTags: false,
+            removeTags: true,
             transform: function (filePath, file) {
                 // return file contents as string
                 return file.contents.toString('utf8')
             }
         }))
         .pipe($.replace('$version$', pckg.version))
-        //.pipe($.htmlmin({ collapseWhitespace: true }))
+        .pipe($.htmlmin({ collapseWhitespace: true }))
         .pipe(gulp.dest(config.html.dest));
 });
 
@@ -102,6 +102,19 @@ gulp.task('jquery', () => {
     .pipe($.rename('jquery.min.js'))
     .pipe($.sourcemaps.write())
     .pipe(gulp.dest(config.jquery.js.dest));
+});
+
+gulp.task('clean', () => {
+  log('Cleaning dist folder');
+
+  var files = [].concat(
+      config.dest + '**/*.js',
+      config.dest + '**/*.html',
+      config.dest + '**/*.css',
+      '!' + config.dest + '/vendor/**',
+  );
+
+  clean(files)
 });
 
 /** Watchers */

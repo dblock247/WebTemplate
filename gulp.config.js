@@ -60,7 +60,8 @@ module.exports = function () {
                 dest + 'js/*'
             ],
             css: dest + 'css/*'
-        }
+        },
+        dest: dest
     };
 
     return config
